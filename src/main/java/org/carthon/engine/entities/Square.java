@@ -1,16 +1,13 @@
 package org.carthon.engine.entities;
 
-import lombok.AllArgsConstructor;
 import org.carthon.engine.data.structs.Pair;
+import org.carthon.engine.data.structs.Shape;
 import org.carthon.engine.data.structs.Vector3;
-import org.carthon.engine.render.MeshLoader;
 
-import java.util.Vector;
-
-@AllArgsConstructor
-public class Square {
+public class Square extends Entity{
     Vector3 position;
     float width, height;
+    Shape shape;
     // Indices of the vertices that form the triangles (indices must be in groups of 3)
     final int[] indices = {
             0, 1, 2, // Triangle with vertices 0, 1, 2
@@ -23,9 +20,23 @@ public class Square {
             new Vector3(0.5f, -0.5f,0f),
             new Vector3(0.5f, 0.5f,0f),
     };
-    public Square(float width, float height){
+    final Vector3[] colours = new Vector3[]{
+            new Vector3(0.5f, 0.0f, 0.0f),
+            new Vector3(0.0f, 0.5f, 0.0f),
+            new Vector3(0.0f, 0.0f, 0.5f),
+            new Vector3(0.0f, 0.5f, 0.5f),
+    };
+    public Square(Vector3 position, float width, float height){
+        this.position = position;
+        Init(width, height);
+        shape = new Shape(indices, vertices, colours);
+    }
+    public void Init(float width, float height){
         this.width = width;
         this.height = height;
+        for (int i = 0; i < vertices.length; i++){
+            vertices[i] = vertices[i].mul(new Vector3(width, height, 0)).add(position);
+        }
     }
-    public Pair<int[], Vector3[]> getShape() { return new Pair<int[], Vector3[]>(indices, vertices); }
+    public Shape getShape() { return shape; }
 }

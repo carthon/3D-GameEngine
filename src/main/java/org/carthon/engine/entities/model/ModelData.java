@@ -1,11 +1,6 @@
-package org.carthon.engine.entities;
+package org.carthon.engine.entities.model;
 
-import org.carthon.engine.data.structs.Vector3;
-
-import java.util.Arrays;
-import java.util.List;
-
-public abstract class GameObject {
+public abstract class ModelData {
     protected int vaoID;
     protected int eboID; //Se encarga de indicar el índice donde se almacena el orden de renderizado de triangulos
     protected int vertexCount;

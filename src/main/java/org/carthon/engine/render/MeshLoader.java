@@ -1,8 +1,9 @@
 package org.carthon.engine.render;
 
 import org.carthon.engine.data.structs.Pair;
+import org.carthon.engine.data.structs.Shape;
 import org.carthon.engine.data.structs.Vector3;
-import org.carthon.engine.entities.RawModel;
+import org.carthon.engine.entities.model.Model;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
@@ -21,27 +22,32 @@ public class MeshLoader {
     private List<Integer> vbos = new ArrayList<Integer>();
     private List<Integer> ebos = new ArrayList<Integer>();
 
-    public RawModel loadToVAO(Pair<int[], Vector3[]> shape){
-        int listSize = shape.getValue().length * 3;
+    public Model loadToVAO(Shape shape){
+        int listSize = shape.getVerticesPosition().length * 3;
         float[] vertices = new float[listSize];
+        float[] colours = new float[listSize];
         for (int i = 0, j = 0; j < listSize; i++){
-            Vector3 vertex = shape.getValue()[i];
-            vertices[j] = vertex.toFloats()[0];
-            vertices[j+1] = vertex.toFloats()[1];
-            vertices[j+2] = vertex.toFloats()[2];
+            Vector3 vertex = shape.getVertexPositionAtIndex(i);
+            Vector3 colour = shape.getColourAtIndex(i);
+            vertices[j] = vertex.x;
+            vertices[j+1] = vertex.y;
+            vertices[j+2] = vertex.z;
+            colours[j] = colour.x;
+            colours[j+1] = colour.y;
+            colours[j+2] = colour.z;
             j += 3;
         }
-
-        return loadToVAO(vertices, shape.getKey());
+        return loadToVAO(vertices, shape.getTriangleConfiguration(), colours, 3);
     }
-    public RawModel loadToVAO(float[] vertices, int[] indices){
+    public Model loadToVAO(float[] vertices, int[] indices, float[] colours, int dimensions){
         int vaoID = createVAO();
-        storeDataAttributeInList(0, 3, vertices);
+        storeDataAttributeInList(0, dimensions, vertices);
+        storeDataAttributeInList(1, dimensions, colours);
         int eboID = bindIndicesInList(indices);
         ebos.add(eboID);
         unbindVAO();
         //Vértices por triángulo
-        return new RawModel(vaoID, eboID, indices.length);
+        return new Model(vaoID, eboID, indices.length);
     }
     /**
      * Creates a new VAO and returns its ID. A VAO holds geometry data that we
