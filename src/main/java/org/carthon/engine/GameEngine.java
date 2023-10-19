@@ -1,8 +1,8 @@
 package org.carthon.engine;
 
 import org.carthon.engine.data.structs.Vector3;
-import org.carthon.engine.entities.Square;
-import org.carthon.engine.environment.Camera;
+import org.carthon.engine.entities.Cube;
+import org.carthon.engine.entities.Quad;
 import org.carthon.engine.environment.SceneManager;
 import org.carthon.engine.render.Display;
 import org.carthon.engine.render.MeshLoader;
@@ -12,11 +12,11 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 
 import static org.carthon.engine.render.DisplayManager.initDisplay;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.glViewport;
 
 public class GameEngine implements Runnable{
-    private Camera camera;
-    MeshLoader loader;
-    Renderer renderer;
+    public static MeshLoader Loader;
+    public static Renderer Renderer;
     Display display;
     SceneManager sceneManager;
     private final Thread gameLoopThread;
@@ -45,27 +45,27 @@ public class GameEngine implements Runnable{
             glfwTerminate();
             throw new RuntimeException(String.format("Failed to create window: %d", display.getDisplayId()));
         }
-
-        camera = new Camera(0,0,0);
-        loader = new MeshLoader();
-        renderer = new Renderer();
+        Loader = new MeshLoader();
+        Renderer = new Renderer();
         sceneManager = new SceneManager();
-        Square square = new Square(Vector3.ZERO, 1,1);
-        sceneManager.getScene(0).addModel(loader.loadToVAO(square.getShape()));
-        renderer.init();
+        Quad square = new Quad(new Vector3(1.5f,1.5f,-3f), 2,1);
+        Cube cube = new Cube(new Vector3(0,0,-5f), 2,1);
+        sceneManager.getScene(0).addEntity(square);
+        sceneManager.getScene(0).addEntity(cube);
+        Renderer.init();
     }
     public void gameLoop(){
         while(!glfwWindowShouldClose(display.getDisplayId())){
-            renderer.prepare();
-            renderer.render(sceneManager.getScene(0));
+            glViewport(0, 0, display.getWidth(), display.getHeight());
+            Renderer.prepare();
+            Renderer.render(sceneManager.getScene(0));
             display.updateDisplay();
         }
     }
     public void end(){
         display.destroy();
-        camera = null;
-        loader = null;
-        renderer = null;
+        Loader = null;
+        Renderer = null;
     }
 
     @Override

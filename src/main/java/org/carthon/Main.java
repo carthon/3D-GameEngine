@@ -13,17 +13,5 @@ public class Main {
         } catch (Exception e) {
             throw new RuntimeException("Engine exception: " + e);
         }
-
-        // Vertices of the triangle (x, y)
-        final float[] vertices = {
-                -0.5f, 0.5f,    // Vertex 0
-                -0.5f, -0.5f,   // Vertex 1
-                0.5f, -0.5f,    // Vertex 2
-                0.5f, 0.5f      // Vertex 3
-        };
-        final int[] indices = {
-                0, 1, 2, // Triangle with vertices 0, 1, 2
-                2, 3, 0
-        };
     }
 }

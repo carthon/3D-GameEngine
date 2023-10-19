@@ -1,23 +1,29 @@
 package org.carthon.engine.environment;
 
 import lombok.EqualsAndHashCode;
-import org.carthon.engine.entities.model.ModelData;
-import org.carthon.engine.entities.model.Model;
+import lombok.Getter;
+import lombok.Setter;
+import org.carthon.engine.entities.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @EqualsAndHashCode
 public class Scene {
-    public List<ModelData> models;
+    @Setter
+    private List<Entity> entities;
+    @Setter
+    private Camera activeCamera;
 
     public Scene(){
-        models = new ArrayList<>();
+        entities = new ArrayList<>();
     }
-    public void addModel(Model model){
-        models.add(model);
+    public Scene(Camera camera){
+        activeCamera = camera;
+        entities = new ArrayList<>();
     }
-    public List<ModelData> getModels() {
-        return models;
+    public void addEntity(Entity entity){
+        entities.add(entity);
     }
 }

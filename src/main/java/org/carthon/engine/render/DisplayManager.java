@@ -1,16 +1,21 @@
 package org.carthon.engine.render;
 
-import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11C.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11C.glEnable;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class DisplayManager {
+    public static List<Display> displays = new ArrayList<>();
+    public static Display activeDisplay;
     public static Display initDisplay(String title, int width, int height){
         long window;
         glfwDefaultWindowHints();
@@ -28,6 +33,7 @@ public class DisplayManager {
 
         glfwGetWindowSize(window, pWidth, pHeight);
 
+        /*
         GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         assert vidMode != null;
@@ -36,12 +42,17 @@ public class DisplayManager {
                 (vidMode.width() - pWidth.get(0)) / 2,
                 (vidMode.height() - pHeight.get(0)) / 2
         );
+        */
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
         glfwShowWindow(window);
 
+
         GL.createCapabilities();
-        return new Display(window);
+        glEnable(GL_DEPTH_TEST);
+        activeDisplay = new Display(window, width, height);
+        displays.add(activeDisplay);
+        return activeDisplay;
     }
 }

@@ -1,4 +1,4 @@
-package org.carthon.engine.entities.model;
+package org.carthon.engine.data.structs.model;
 
 public abstract class ModelData {
     protected int vaoID;

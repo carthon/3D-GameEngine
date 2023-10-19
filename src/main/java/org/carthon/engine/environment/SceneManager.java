@@ -1,5 +1,7 @@
 package org.carthon.engine.environment;
 
+import org.carthon.engine.render.DisplayManager;
+
 import java.util.HashMap;
 
 public class SceneManager {
@@ -8,7 +10,7 @@ public class SceneManager {
     public SceneManager(){
         scenes = new HashMap<>();
         sceneIndex = 0;
-        addScene(new Scene());
+        addScene(new Scene(new Camera(0,0,0, DisplayManager.activeDisplay)));
     }
     public int addScene(Scene scene){
         scenes.put(sceneIndex, scene);

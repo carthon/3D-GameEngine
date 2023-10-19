@@ -1,9 +1,7 @@
 package org.carthon.engine.render;
 
-import org.carthon.engine.data.structs.Pair;
-import org.carthon.engine.data.structs.Shape;
 import org.carthon.engine.data.structs.Vector3;
-import org.carthon.engine.entities.model.Model;
+import org.carthon.engine.data.structs.model.Model;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
@@ -22,24 +20,7 @@ public class MeshLoader {
     private List<Integer> vbos = new ArrayList<Integer>();
     private List<Integer> ebos = new ArrayList<Integer>();
 
-    public Model loadToVAO(Shape shape){
-        int listSize = shape.getVerticesPosition().length * 3;
-        float[] vertices = new float[listSize];
-        float[] colours = new float[listSize];
-        for (int i = 0, j = 0; j < listSize; i++){
-            Vector3 vertex = shape.getVertexPositionAtIndex(i);
-            Vector3 colour = shape.getColourAtIndex(i);
-            vertices[j] = vertex.x;
-            vertices[j+1] = vertex.y;
-            vertices[j+2] = vertex.z;
-            colours[j] = colour.x;
-            colours[j+1] = colour.y;
-            colours[j+2] = colour.z;
-            j += 3;
-        }
-        return loadToVAO(vertices, shape.getTriangleConfiguration(), colours, 3);
-    }
-    public Model loadToVAO(float[] vertices, int[] indices, float[] colours, int dimensions){
+    public Model loadToVAO(int[] indices, float[] vertices, float[] colours, int dimensions){
         int vaoID = createVAO();
         storeDataAttributeInList(0, dimensions, vertices);
         storeDataAttributeInList(1, dimensions, colours);

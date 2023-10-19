@@ -10,10 +10,13 @@ import static org.lwjgl.glfw.GLFW.*;
 @Getter
 public class Display {
     long displayId;
+    private int width, height;
     @Getter
     double secsPerFrame = 1.0d / 144.0d;
 
-    public Display(long displayId){
+    public Display(long displayId, int width, int height){
+        this.width = width;
+        this.height = height;
         this.displayId = displayId;
     }
     public void destroy(){
@@ -25,6 +28,7 @@ public class Display {
             glfwTerminate();
             Objects.requireNonNull(glfwSetErrorCallback(null)).free();
     }
+
     public void updateDisplay(){
         glfwSwapBuffers(displayId);
         glfwPollEvents();

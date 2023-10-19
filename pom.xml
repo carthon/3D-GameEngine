@@ -35,6 +35,9 @@
             <properties>
                 <lwjgl.version>3.3.2</lwjgl.version>
                 <lwjgl.natives>natives-linux</lwjgl.natives>
+                <joml.version>1.9.6</joml.version>
+                <imgui-java.version>1.86.11</imgui-java.version>
+                <native.target>lwjgl3</native.target>
             </properties>
         </profile>
         <profile>
@@ -72,8 +75,24 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>io.github.spair</groupId>
+            <artifactId>imgui-java-binding</artifactId>
+            <version>${imgui-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.spair</groupId>
+            <artifactId>imgui-java-lwjgl3</artifactId>
+            <version>${imgui-java.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.joml</groupId>
+            <artifactId>joml</artifactId>
+            <version>${joml.version}</version>
         </dependency>
         <dependency>
             <groupId>org.lwjgl</groupId>
